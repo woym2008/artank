@@ -2495,7 +2495,7 @@ Object.assign(ARjs.Context.prototype, THREE.EventDispatcher.prototype);
 
 // default to github page
 //ARjs.Context.baseURL = 'https://woym2008.github.io/artank/arjs/three.js/build/three.js'
-ARjs.Context.baseURL = 'https://woym2008.github.io/artank/arjs/three.js'
+ARjs.Context.baseURL = 'https://woym2008.github.io/artank/arjs/three.js/'
 ARjs.Context.REVISION = '3.3.3';
 
 /**
