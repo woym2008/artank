@@ -13,6 +13,7 @@ app.callback = (msg) => {
     const setting = {
         //model: 'asset/model/trex_v3.fbx',ZTZ99A1
         model: 'asset/model/ZTZ99A1.fbx',
+        sprite: 'asset/texture/asteroid_explode1.png'
         scale: 0.02,
         position: [0, 0, 0]
     };
@@ -34,6 +35,9 @@ function showModel(setting) {
         if (val >= 100) {
             app.hide('loadingWrap');
         }
+    });
+    threeHelper.loadSprite(setting, (p) => {
+				//const val = Math.ceil(p.loaded / p.total * 100);
     });
 }
 //# sourceMappingURL=app.js.map

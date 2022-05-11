@@ -47,5 +47,20 @@ class ThreeHelper {
             }
         });
     }
+    loadSprite(setting, callback) {
+        const loader = new THREE.TextureLoader();
+        loader.load(setting.sprite, (object) => {
+
+            //var spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, color: 0xffffff } ); 
+            //var sprite = new THREE.Sprite(spriteMaterial); 
+            //this.scene.add(sprite);
+
+            //sprite.position.set(setting.position[0], setting.position[1]);
+        }, (p) => {
+            if (p.loaded) {
+                callback({ loaded: p.loaded, total: p.total });
+            }
+        });
+    }
 }
 //# sourceMappingURL=ThreeHelper.js.map
