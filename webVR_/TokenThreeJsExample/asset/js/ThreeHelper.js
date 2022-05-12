@@ -5,11 +5,18 @@ class ThreeHelper {
         this.mixers = [];
         this.scene = new THREE.Scene();
         this.scene.add(     new THREE.AmbientLight(0xFFFFFF)  );
-        this.scene.add(  new THREE.DirectionalLight( 0xffffff, 3 ) );
+        var l1 = new THREE.DirectionalLight( 0xffffff, 10 );
+        l1.position.set(-5,10,0);
+        l1.rotation.set(45,175,0);
+        this.scene.add(l1);
+        var l2 = new THREE.DirectionalLight( 0xffffff, 10 );
+        l2.position.set(5,-10,0);
+        l2.rotation.set(145,45,0);
+        this.scene.add(l2);
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.camera.rotation.set(0,-0.35,0);
-        this.camera.position.set(-21.41, -7.65, 136.75);
+        this.camera.position.set(-51.41, -7.65, 136.75);
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
@@ -42,7 +49,7 @@ class ThreeHelper {
         var self = this;
         loader.load(setting.model, (object) => {
             object.scale.setScalar(setting.scale);
-            object.position.set(setting.position[0], setting.position[1], setting.position[1]);
+            object.position.set(setting.position[0], setting.position[1], setting.position[1]-115);
             this.scene.add(object);
             this.muzzle = object.getObjectByName("muzzle");
 
