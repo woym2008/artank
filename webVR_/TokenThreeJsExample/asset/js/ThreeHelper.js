@@ -16,7 +16,7 @@ class ThreeHelper {
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.camera.rotation.set(0,-0.35,0);
-        this.camera.position.set(-51.41, -7.65, 136.75);
+        this.camera.position.set(-61.41, -10.65, 236.75);
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
