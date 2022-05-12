@@ -12,9 +12,8 @@ app.callback = (msg) => {
     console.info(msg);
     const setting = {
         //model: 'asset/model/trex_v3.fbx',ZTZ99A1
-        model: 'asset/model/ZTZ99A1.fbx',
-        sprite: 'asset/texture/asteroid_explode1.png'
-        scale: 0.02,
+        model: 'asset/model/ZTZ99A1_Anima.fbx',
+        scale: 0.1,
         position: [0, 0, 0]
     };
     // 可以将 setting 作为meta上传到EasyAR的云识别，使用方法如下:
@@ -35,9 +34,6 @@ function showModel(setting) {
         if (val >= 100) {
             app.hide('loadingWrap');
         }
-    });
-    threeHelper.loadSprite(setting, (p) => {
-				//const val = Math.ceil(p.loaded / p.total * 100);
     });
 }
 //# sourceMappingURL=app.js.map

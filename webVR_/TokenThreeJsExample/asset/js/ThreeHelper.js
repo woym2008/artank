@@ -1,11 +1,15 @@
 class ThreeHelper {
     constructor() {
+        this.muzzle = null;
+        this.framePlayer = null;
         this.mixers = [];
         this.scene = new THREE.Scene();
-        this.scene.add(new THREE.AmbientLight(0xFFFFFF));
+        this.scene.add(     new THREE.AmbientLight(0xFFFFFF)  );
+        this.scene.add(  new THREE.DirectionalLight( 0xffffff, 3 ) );
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        this.camera.position.set(-30, 30, 25);
+        this.camera.rotation.set(0,-0.35,0);
+        this.camera.position.set(-21.41, -7.65, 136.75);
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
@@ -26,20 +30,39 @@ class ThreeHelper {
         for (const mixer of this.mixers) {
             mixer.update(this.clock.getDelta());
         }
+        if(this.framePlayer){
+            this.framePlayer.update();
+        }
         window.requestAnimationFrame(() => {
             this.render();
         });
     }
     loadObject(setting, callback) {
         const loader = new THREE.FBXLoader();
+        var self = this;
         loader.load(setting.model, (object) => {
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[1]);
             this.scene.add(object);
+            this.muzzle = object.getObjectByName("muzzle");
+
+            if(this.muzzle){
+                //alert("Find TANK muzzle!")
+                this.createPartical();
+            }
+
             if (object.animations.length > 0) {
                 object.mixer = new THREE.AnimationMixer(object);
                 this.mixers.push(object.mixer);
-                object.mixer.clipAction(object.animations[0]).play();
+                let anima = object.mixer.clipAction(object.animations[0]);
+                object.mixer.addEventListener( 'finished', function( e ) {
+                     /*alert("TANK Anima Finish!")*/
+                     self.framePlayer.sprite.visible  = true;
+                     self.framePlayer.play();
+                    } );
+                anima.clampWhenFinished = true;
+                anima.setLoop(THREE.LoopOnce);
+                anima.play();
             }
         }, (p) => {
             if (p.loaded) {
@@ -47,20 +70,22 @@ class ThreeHelper {
             }
         });
     }
-    loadSprite(setting, callback) {
-        const loader = new THREE.TextureLoader();
-        loader.load(setting.sprite, (object) => {
+    createPartical(){
 
-            var spriteMaterial = new THREE.SpriteMaterial( { map: spriteMap, color: 0xffffff } ); 
-            var sprite = new THREE.Sprite(spriteMaterial); 
-            this.scene.add(sprite);
+        this.framePlayer = new Frame(
+            { src: 'asset/images/boom.png', width: 2048, height: 1024, fWidth: 128, fHeight: 128, count: 128 }, 
+            { width: 128, height: 128, duration: 2.33333, loop: false }
+        );
+        //sprite.position.set(this.muzzle.position.x, this.muzzle.position.y, this.muzzle.position.z );
 
-            sprite.position.set(setting.position[0], setting.position[1]);
-        }, (p) => {
-            if (p.loaded) {
-                callback({ loaded: p.loaded, total: p.total });
-            }
-        });
+        this.framePlayer.sprite.position.set(0, 0, 0 );
+        this.framePlayer.sprite.scale.set(5, 5, 5 );
+        this.scene.add(this.framePlayer.sprite);
+        this.muzzle.add(this.framePlayer.sprite);
+        this.framePlayer.sprite.visible  = false;
+        //this.muzzle.scale.set(5, 5, 5 );
+
+
     }
 }
 //# sourceMappingURL=ThreeHelper.js.map
