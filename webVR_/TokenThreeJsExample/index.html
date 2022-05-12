@@ -33,11 +33,17 @@
     <input class="none" type="button" value="开始识别" id="start"/>
     <input class="none" type="button" value="停止识别" id="stop"/>
 </div>
-
+<!--
 <script type="text/javascript" src="asset/libs/three/three.min.js"></script>
 <script type="text/javascript" src="asset/libs/three/FBXLoader.js"></script>
 <script type="text/javascript" src="asset/libs/three/inflate.min.js"></script>
 <script type="text/javascript" src="asset/libs/three/OrbitControls.js"></script>
+-->
+<script type="text/javascript" src="asset/libs/threeNew/three.min.js"></script>
+<script type="text/javascript" src="asset/libs/threeNew/FBXLoader.js"></script>
+<script type="text/javascript" src="asset/libs/threeNew/fflate.min.js"></script>
+<script type="text/javascript" src="asset/libs/threeNew/OrbitControls.js"></script>
+<script type="text/javascript" src="asset/js/frame.js"></script>
 <script type="text/javascript" src="asset/js/ThreeHelper.js"></script>
 
 <script type="text/javascript" src="../src/adapter.js"></script>
@@ -47,7 +53,6 @@
 <script>
     (function () {
         const vConsole = new VConsole();
-
         const e = document.createElement('script');
         e.setAttribute('src', `asset/js/app.js?t=${Date.now()}`);
         document.body.appendChild(e);
@@ -60,9 +65,9 @@
             if(evt.keyCode == 70){
                 const setting = {
                 //model: 'asset/model/trex_v3.fbx',
-                model: 'asset/model/ZTZ99A1.fbx',
-                //model: 'asset/model/ZTZ99A1.obj',
-                scale: 0.05,
+                //model: 'asset/model/ZTZ99A1.fbx',
+                model: 'asset/model/ZTZ99A1_Anima.fbx',
+                scale: 0.1,
                 position: [0, 0, 0]
             };
             showModel(setting);
