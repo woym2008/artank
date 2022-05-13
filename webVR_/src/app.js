@@ -11,7 +11,7 @@ class App {
         // 识别成功后的回调
         this.callback = null;
         this.clientEndUrl = url || 'https://cn1-crs.easyar.com:8443/search';
-        this.listCamera();
+        //this.listCamera();
         this.initEvent();
     }
     /**
@@ -52,22 +52,43 @@ class App {
      * @param p 摄像头参数
      */
     openCamera(p) {
+        let self = this;
         this.stopRecognize();
         this.webAR.openCamera(p).then(() => {
-            this.show('start');
+            //this.show('start');
+            window.setTimeout(self.startScan(),2000);
         }).catch(err => {
             console.error(err);
             alert(`摄像头打开失败\n${err}`);
         });
     }
+    /**直接打开摄像头 */
+    directOpenCamera(){
+        this.openCamera(this.cameras[2].value);
+    }
+    startScan(){
+        this.show('scanLine');
+        //this.hide('start');
+        //this.show('stop');
+        this.webAR.startRecognize((msg) => {
+            this.stopRecognize();
+            //this.show('start');
+            if (this.callback) {
+                this.callback(msg);
+            }
+        })
+    }
+
     initEvent() {
         // 打开设备上的摄像头
+        /*
         document.querySelector('#openCamera').addEventListener('click', () => {
             this.openCamera(this.cameras[this.cameraElement.value].value);
         });
         // 开启识别
         document.querySelector('#start').addEventListener('click', () => {
             // todo: 清除已渲染的内容(视业务需求)
+
             this.show('scanLine');
             this.hide('start');
             this.show('stop');
@@ -83,11 +104,11 @@ class App {
         document.querySelector('#stop').addEventListener('click', () => {
             this.stopRecognize();
             this.show('start');
-        }, false);
+        }, false);*/
     }
     stopRecognize() {
         this.hide('scanLine');
-        this.hide('stop');
+        //this.hide('stop');
         this.webAR.stopRecognize();
     }
 }
