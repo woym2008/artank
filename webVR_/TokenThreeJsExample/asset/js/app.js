@@ -20,6 +20,9 @@ app.callback = (msg) => {
     // const setting = JSON.parse(window.atob(msg.target.meta));
     showModel(setting);
 };
+//调用这个
+app.directOpenCamera();
+//
 function showModel(setting) {
     const canvas = document.querySelector('.easyARCanvas');
     if (canvas) {
