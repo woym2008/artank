@@ -66,8 +66,7 @@ class App {
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
         
-        document.querySelector("#easyAR").onclick = function(){
-        	window.DeviceOrientationEvent.requestPermission()
+        window.DeviceOrientationEvent.requestPermission()
         	.then(state => {
         		switch(state){
         			case "granted":
@@ -79,7 +78,6 @@ class App {
         			break;
         			}
         		});
-        	}
     }
     startScan(){
         this.show('scanLine');
