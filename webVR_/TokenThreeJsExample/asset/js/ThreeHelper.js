@@ -19,7 +19,6 @@ class ThreeHelper {
         //this.camera.position.set(-61.41, -10.65, 236.75);
         this.camera.rotation.set(-1.0,0,0);
         this.camera.position.set(-1.0, 20.65, 289.76);
-        //this.dControls = new THREE.DeviceOrientationControls(this.camera);
         
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,24 +31,28 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
+        
         this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.control.target = new THREE.Vector3(0,0,117);
         this.control.update();
+        this.control.dispose();
+        //
+        this.dControls = new THREE.DeviceOrientationControls(this.camera);      
+        //
         this.render();
     }
     render() {
+        this.dControls.update();
+
         this.renderer.render(this.scene, this.camera);
+
         for (const mixer of this.mixers) {
             mixer.update(this.clock.getDelta());
         }
         if(this.framePlayer){
             this.framePlayer.update();
         }
-        if(this.dControls)
-        {
-        	this.dControls.update();
-        }
-        //this.dControls.update();
+
         window.requestAnimationFrame(() => {
             this.render();
         });
@@ -61,7 +64,6 @@ class ThreeHelper {
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
-            this.dControls = new THREE.DeviceOrientationControls(object);
             this.muzzle = object.getObjectByName("muzzle");
 
             if(this.muzzle){
