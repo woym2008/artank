@@ -18,6 +18,7 @@ class ThreeHelper {
         this.camera.rotation.set(0,-0.35,0);
         this.camera.position.set(-61.41, -10.65, 236.75);
         this.dControls = new THREE.DeviceOrientationControls(this.camera);
+        this.dControls.screenOrientation = 90;
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
@@ -29,7 +30,7 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
-        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         //this.control.update();
         
 				if(this.dControls)
