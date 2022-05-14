@@ -32,11 +32,7 @@ class ThreeHelper {
         }, false);
         //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         //this.control.update();
-        
-				if(this.dControls)
-        {
-        	this.dControls.update();
-        }
+
         
         this.render();
     }
@@ -48,7 +44,11 @@ class ThreeHelper {
         if(this.framePlayer){
             this.framePlayer.update();
         }
-
+        
+				if(this.dControls)
+        {
+        	this.dControls.update();
+        }
         window.requestAnimationFrame(() => {
             this.render();
         });
