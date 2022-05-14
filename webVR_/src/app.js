@@ -65,7 +65,7 @@ class App {
     /**直接打开摄像头 */
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
-        
+        /*
         window.DeviceOrientationEvent.requestPermission()
         	.then(state => {
         		switch(state){
@@ -77,7 +77,7 @@ class App {
         			case "prompt":
         			break;
         			}
-        		});
+        		});*/
     }
     startScan(){
         this.show('scanLine');
