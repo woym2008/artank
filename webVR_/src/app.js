@@ -65,6 +65,21 @@ class App {
     /**直接打开摄像头 */
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
+        
+        document.querySelector("#container").onclick = function(){
+        	window.DeviceOrientationEvent.requestPermission()
+        	.then(state => {
+        		switch(state){
+        			case "granted":
+        			window.addEventLisitener('deviceorientation', capture_orientation, false);
+        			break;
+        			case "denied":
+        			alert("cancle device!!")
+        			case "prompt":
+        			break;
+        			}
+        		});
+        	}
     }
     startScan(){
         this.show('scanLine');
