@@ -66,7 +66,7 @@ class App {
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
         
-        document.querySelector("#container").onclick = function(){
+        document.querySelector("#easyAR").onclick = function(){
         	window.DeviceOrientationEvent.requestPermission()
         	.then(state => {
         		switch(state){
