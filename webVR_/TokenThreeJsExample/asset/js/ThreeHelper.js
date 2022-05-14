@@ -29,8 +29,8 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
-        //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        //this.control.update();
+        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.control.update();
 
         
         this.render();
