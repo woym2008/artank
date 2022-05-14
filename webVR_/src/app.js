@@ -19,7 +19,8 @@ class App {
      * @param token 认证token
      */
     setToken(token) {
-        this.webAR = new WebAR(1000, this.clientEndUrl, token, document.querySelector('#easyAR'));
+        //之前是1000
+        this.webAR = new WebAR(2500, this.clientEndUrl, token, document.querySelector('#easyAR'));
     }
     /**
      * 使用集成方法获取tolen及初始化WebAR对象
@@ -56,7 +57,7 @@ class App {
         this.stopRecognize();
         this.webAR.openCamera(p).then(() => {
             //this.show('start');
-            window.setTimeout(self.startScan(),2000);
+            window.setTimeout(self.startScan(),1000);
         }).catch(err => {
             console.error(err);
             alert(`摄像头打开失败\n${err}`);
@@ -65,19 +66,6 @@ class App {
     /**直接打开摄像头 */
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
-        /*
-        window.DeviceOrientationEvent.requestPermission()
-        	.then(state => {
-        		switch(state){
-        			case "granted":
-        			window.addEventLisitener('deviceorientation', capture_orientation, false);
-        			break;
-        			case "denied":
-        			alert("cancle device!!")
-        			case "prompt":
-        			break;
-        			}
-        		});*/
     }
     startScan(){
         this.show('scanLine');

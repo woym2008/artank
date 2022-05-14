@@ -20,7 +20,7 @@ app.callback = (msg) => {
     // const setting = JSON.parse(window.atob(msg.target.meta));
     showModel(setting);
 };
-//调用这个
+//调用这个,直接开启摄像头
 app.directOpenCamera();
 //
 function showModel(setting) {
@@ -30,8 +30,9 @@ function showModel(setting) {
     }
     app.show('loadingWrap');
     // ThreeJS简单使用类
-    const threeHelper = new ThreeHelper();
-    threeHelper.loadObject(setting, (p) => {
+    //const threeHelper = new ThreeHelper();
+    if(!app.threeHelper) app.threeHelper = new ThreeHelper();
+    app.threeHelper.loadObject(setting, (p) => {
         const val = Math.ceil(p.loaded / p.total * 100);
         document.querySelector('#loadingPercent').innerHTML = `${val}%`;
         if (val >= 100) {
