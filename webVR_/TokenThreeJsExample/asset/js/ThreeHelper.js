@@ -17,8 +17,7 @@ class ThreeHelper {
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.camera.rotation.set(0,-0.35,0);
         this.camera.position.set(-61.41, -10.65, 236.75);
-        this.dControls = new THREE.DeviceOrientationControls(this.camera);
-        this.dControls.screenOrientation = 90;
+        
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
@@ -60,6 +59,9 @@ class ThreeHelper {
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[1]-115);
             this.scene.add(object);
+            
+            this.dControls = new THREE.DeviceOrientationControls(object);
+            
             this.muzzle = object.getObjectByName("muzzle");
 
             if(this.muzzle){
