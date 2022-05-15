@@ -32,10 +32,10 @@ class ThreeHelper {
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
         
-        //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        //this.control.target = new THREE.Vector3(0,0,117);
-        //this.control.update();
-        //this.control.dispose();
+        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.control.target = new THREE.Vector3(0,0,117);
+        this.control.update();
+        this.control.dispose();
         //
         this.dControls = new THREE.DeviceOrientationControls(this.camera);      
         //
