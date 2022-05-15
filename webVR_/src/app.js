@@ -88,7 +88,7 @@ class App {
         isDeviceing = true;
         //开启陀螺仪
         $("#controlBtn").removeClass("controlIconae").addClass("controlIcon");
-        
+        /*
         window.DeviceOrientationEvent.requestPermission().then(state => {
         	console.log('state',state)
         	switch(state){
@@ -103,7 +103,7 @@ class App {
         			break
         	}
         	
-        });
+        });*/
     }
 
     startScan(){
