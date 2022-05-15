@@ -66,7 +66,7 @@ class ThreeHelper {
             if (window.DeviceOrientationEvent) {
 					    window.addEventListener("deviceorientation", function(event) {
 					        // alpha: 在Z轴上的角度					        
-					        var rotateDegrees = selfalpha;
+					        var rotateDegrees = event.alpha;
 					        // gamma: 从左到右
 					        var leftToRight = event.gamma;
 					        // beta: 从前到后的运动
