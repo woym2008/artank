@@ -12,6 +12,22 @@ class App {
         this.callback = null;
         this.clientEndUrl = url || 'https://cn1-crs.easyar.com:8443/search';
         //this.listCamera();
+				var controlsBtn= document.getElementById("controlBtn");
+        controlsBtn.addEventListener("touchend", function(event){
+        	window.DeviceOrientationEvent.requestPermission()
+        	.then(state => {
+        		switch(state){
+        			case "granted":
+        			window.addEventLisitener('deviceorientation', capture_orientation, false);
+        			break;
+        			case "denied":
+        			alert("cancle device!!")
+        			case "prompt":
+        			break;
+        			}
+        		});
+        	}, true);
+        	
         this.initEvent();
     }
     /**
@@ -66,7 +82,14 @@ class App {
     /**直接打开摄像头 */
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
-				window.DeviceOrientationEvent.requestPermission().then(state => {
+    }
+    switchControl(){
+
+        isDeviceing = true;
+        //开启陀螺仪
+        $("#controlBtn").removeClass("controlIconae").addClass("controlIcon");
+        
+        window.DeviceOrientationEvent.requestPermission().then(state => {
         	console.log('state',state)
         	switch(state){
         		case "granted":
@@ -82,6 +105,7 @@ class App {
         	
         });
     }
+
     startScan(){
         this.show('scanLine');
         //this.hide('start');
