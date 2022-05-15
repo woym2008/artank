@@ -67,7 +67,7 @@ class ThreeHelper {
             this.muzzle = object.getObjectByName("muzzle");
 
             if(this.muzzle){
-                //alert("Find TANK muzzle!")
+                alert("Find TANK muzzle!")
                 this.createPartical();
             }
 
