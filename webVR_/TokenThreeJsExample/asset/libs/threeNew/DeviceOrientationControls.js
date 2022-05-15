@@ -10,20 +10,20 @@ THREE.DeviceOrientationControls = function ( object ) {
 	var scope = this;
 
 	this.object = object;
-	this.object.rotation.reorder( 'YXZ' );
+	//this.object.rotation.reorder( 'YXZ' );
+	this.object.rotation.reorder( 'ZXY' );
+
 	this.q = this.object.quaternion.clone();
 
 	this.enabled = true;
 
 	this.deviceOrientation = {};
-	this.savedDeviceOrientation = null;
+	this.savedDeviceOrientation = {};
 	this.screenOrientation = 0;
 
 	this.alphaOffset = 0; // radians
 
 	var onDeviceOrientationChangeEvent = function ( event ) {
-
-		if(!scope.savedDeviceOrientation) scope.savedDeviceOrientation = event;
 
 		scope.deviceOrientation = event;
 
@@ -53,7 +53,9 @@ THREE.DeviceOrientationControls = function ( object ) {
 
 		return function ( quaternion, alpha, beta, gamma, orient ) {
 
-			euler.set( beta, alpha, - gamma, 'YXZ' ); // 'ZXY' for the device, but 'YXZ' for us
+			//euler.set( beta, alpha, - gamma, 'YXZ' ); // 'ZXY' for the device, but 'YXZ' for us
+			euler.set( beta, gamma,alpha, 'ZXY' ); // 'ZXY' for the device, but 'YXZ' for us
+
 
 			q3.setFromEuler( euler ); // orient the device
 
@@ -61,9 +63,11 @@ THREE.DeviceOrientationControls = function ( object ) {
 
 			q3.multiply( q0.setFromAxisAngle( zee, - orient ) ); // adjust for screen orientation
 
-			q3.premultiply(q);
+			//q3.premultiply(q);
 
-			quaternion.copy(q3);
+			//quaternion.copy(q3);
+
+			quaternion.multiply(q3);
 
 		};
 
@@ -73,8 +77,13 @@ THREE.DeviceOrientationControls = function ( object ) {
 
 		onScreenOrientationChangeEvent(); // run once on load
 
+		if(window.DeviceOrientationEvent){
+			window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
+		}
+		else{
+			console.log("不支持陀螺仪");
+		}
 		window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent, false );
-		window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent, false );
 
 		scope.enabled = true;
 
@@ -114,6 +123,17 @@ THREE.DeviceOrientationControls = function ( object ) {
 			//console.log(dA +',' + dB + ',' + dG);
 			//setObjectQuaternion( scope.object.quaternion, alpha, beta, gamma, orient );
 			setObjectQuaternion( scope.object.quaternion, dA, dB, dG, orient );
+
+			//
+			if(	scope.savedDeviceOrientation){
+				scope.savedDeviceOrientation.alpha = device.alpha;
+				scope.savedDeviceOrientation.beta = device.beta;
+				scope.savedDeviceOrientation.gamma = device.gamma;
+				console.log('saved:' + scope.savedDeviceOrientation.alpha + ',' +
+							scope.savedDeviceOrientation.beta +  ',' +
+							scope.savedDeviceOrientation.gamma);
+		   }
+	
 
 		}
 
