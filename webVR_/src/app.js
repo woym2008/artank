@@ -13,9 +13,21 @@ class App {
         this.clientEndUrl = url || 'https://cn1-crs.easyar.com:8443/search';
         //this.listCamera();
         var controlsBtn= document.getElementById("controlBtn");
-        controlsBtn.addEventListener("touchend", controlDevice, true);
-        var isDeviceing = false;
-        isDeviceing == true ? $("#controlBtn").addClass("controlIconae") : $("#controlBtn").addClass("controlIcon");
+        controlsBtn.addEventListener("touchend", function(event){
+        	window.DeviceOrientationEvent.requestPermission()
+        	.then(state => {
+        		switch(state){
+        			case "granted":
+        			window.addEventLisitener('deviceorientation', capture_orientation, false);
+        			break;
+        			case "denied":
+        			alert("cancle device!!")
+        			case "prompt":
+        			break;
+        			}
+        		});
+        	}, true);
+
         
         this.initEvent();
     }
@@ -67,6 +79,7 @@ class App {
             alert(`摄像头打开失败\n${err}`);
         });
     }
+    
     /**直接打开摄像头 */
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
@@ -84,12 +97,8 @@ class App {
         			}
         		});*/
     }
-    controlDevice(event){
-    	if (isDeviceing == true) {
-        isDeviceing = false;
-        //关闭陀螺仪
-        $("#controlBtn").removeClass("controlIcon").addClass("controlIconae");
-    } else {
+    switchControl(){
+
         isDeviceing = true;
         //开启陀螺仪
         $("#controlBtn").removeClass("controlIconae").addClass("controlIcon");
