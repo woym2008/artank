@@ -66,6 +66,21 @@ class App {
     /**直接打开摄像头 */
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
+				window.DeviceOrientationEvent.requestPermission().then(state => {
+        	console.log('state',state)
+        	switch(state){
+        		case "granted":
+        				window.addEventListener('deviceorientation', capture_orientation, false);
+        			break;
+        			case "denied":
+        				alert("you cancle");
+        			break;
+        			case "prompt":
+        				alert("other");
+        			break
+        	}
+        	
+        });
     }
     startScan(){
         this.show('scanLine');
