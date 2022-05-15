@@ -5,18 +5,20 @@ class ThreeHelper {
         this.mixers = [];
         this.scene = new THREE.Scene();
         this.scene.add(     new THREE.AmbientLight(0xFFFFFF)  );
-        var l1 = new THREE.DirectionalLight( 0xffffff, 10 );
+        var l1 = new THREE.DirectionalLight( 0xffffff, 3.3 );
         l1.position.set(-5,10,0);
         l1.rotation.set(45,175,0);
         this.scene.add(l1);
-        var l2 = new THREE.DirectionalLight( 0xffffff, 10 );
+        var l2 = new THREE.DirectionalLight( 0xffffff, 3.3 );
         l2.position.set(5,-10,0);
         l2.rotation.set(145,45,0);
         this.scene.add(l2);
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        this.camera.rotation.set(0,-0.35,0);
-        this.camera.position.set(-61.41, -10.65, 236.75);
+        //this.camera.rotation.set(0,-0.35,0);
+        //this.camera.position.set(-61.41, -10.65, 236.75);
+        this.camera.rotation.set(-1.0,0,0);
+        this.camera.position.set(-1.0, 20.65, 289.76);
         
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -57,7 +59,7 @@ class ThreeHelper {
         var self = this;
         loader.load(setting.model, (object) => {
             object.scale.setScalar(setting.scale);
-            object.position.set(setting.position[0], setting.position[1], setting.position[1]-115);
+            object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
             
             this.dControls = new THREE.DeviceOrientationControls(object);
