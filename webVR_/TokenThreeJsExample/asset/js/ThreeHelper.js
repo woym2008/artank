@@ -81,6 +81,23 @@ class ThreeHelper {
 					        handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
 					    }, true);
 						}*/
+						window.addEventLisitener('deviceorientation', function(event){
+        				var rotateDegrees = event.alpha;
+					        // gamma: 从左到右
+					        var leftToRight = event.gamma;
+					        // beta: 从前到后的运动
+					        var selfbeta = event.beta;
+					        if(selfbeta > 180)
+					        {
+					        	selfbeta = 360-event.beta;
+					        }
+					        var frontToBack = selfbeta;
+					
+									console.log('deviceorientation rot',frontToBack)
+									
+									object.rotation.set(selfbeta,rotateDegrees,leftToRight);
+        				
+        				}, true);
             
             this.muzzle = object.getObjectByName("muzzle");
 
