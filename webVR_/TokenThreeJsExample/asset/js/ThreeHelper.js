@@ -56,11 +56,11 @@ class ThreeHelper {
         {
         	if(this.tank.rotation.x < 0)
         	{
-        		this.dControls.alphaOffset =180;
+        		this.dControls.screenOrientation  =180;
         	}
         	else
         	{
-        		this.dControls.alphaOffset = 0;
+        		this.dControls.screenOrientation  = 0;
         		}
         }
         window.requestAnimationFrame(() => {
