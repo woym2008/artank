@@ -34,6 +34,7 @@ class ThreeHelper {
         this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.control.update();
 
+				this.tank = null;
         
         this.render();
     }
@@ -46,10 +47,18 @@ class ThreeHelper {
             this.framePlayer.update();
         }
         
-				//if(this.dControls)
-        //{
-        	//this.dControls.update();
-        //}
+				if(this.dControls)
+        {
+        	this.dControls.update();
+        }
+        
+        if(this.tank !== null)
+        {
+        	if(this.tank.rotation.x < 0)
+        	{
+        		this.tank.rotation.set(180 - this.tank.rotation,this.tank.rotation.y,this.tank.rotation.z);
+        	}
+        }
         window.requestAnimationFrame(() => {
             this.render();
         });
@@ -62,7 +71,7 @@ class ThreeHelper {
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
             
-            //this.dControls = new THREE.DeviceOrientationControls(null);
+            this.dControls = new THREE.DeviceOrientationControls(null);
             /*
             if (window.DeviceOrientationEvent) {
 					    window.addEventListener("deviceorientation", function(event) {
