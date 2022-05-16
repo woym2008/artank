@@ -31,6 +31,7 @@ class App {
 					        }
 					        var frontToBack = selfbeta;
 					
+									console.log('deviceorientation rot',frontToBack)
 					        handleOrientationEvent(0, 0, 0);
         				
         				}, true);
