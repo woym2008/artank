@@ -54,9 +54,9 @@ class ThreeHelper {
         
         if(this.tank !== null)
         {
-        	if(this.tank.rotation.x < 0)
+        	if(this.tank.rotation.x < 0&& this.dControls != null)
         	{
-        		this.tank.rotation.set(180 - this.tank.rotation,this.tank.rotation.y,this.tank.rotation.z);
+        		this.dControls.alphaOffset +=180;
         	}
         }
         window.requestAnimationFrame(() => {
