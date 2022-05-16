@@ -71,7 +71,7 @@ class ThreeHelper {
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
             
-            this.dControls = new THREE.DeviceOrientationControls(null);
+            this.dControls = new THREE.DeviceOrientationControls(object);
             /*
             if (window.DeviceOrientationEvent) {
 					    window.addEventListener("deviceorientation", function(event) {
@@ -90,6 +90,7 @@ class ThreeHelper {
 					        handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
 					    }, true);
 						}*/
+						this.tank = object;
 						window.addEventLisitener('deviceorientation', function(event){
         				var rotateDegrees = event.alpha;
 					        // gamma: ´Ó×óµ½ÓÒ
