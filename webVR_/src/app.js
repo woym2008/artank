@@ -31,7 +31,7 @@ class App {
 					        }
 					        var frontToBack = selfbeta;
 					
-					        handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
+					        handleOrientationEvent(0, 0, 0);
         				
         				}, true);
         			break;
