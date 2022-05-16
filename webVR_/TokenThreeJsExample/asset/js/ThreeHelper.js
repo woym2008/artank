@@ -63,6 +63,7 @@ class ThreeHelper {
             this.scene.add(object);
             
             this.dControls = new THREE.DeviceOrientationControls(object);
+            /*
             if (window.DeviceOrientationEvent) {
 					    window.addEventListener("deviceorientation", function(event) {
 					        // alpha: 在Z轴上的角度					        
@@ -75,11 +76,11 @@ class ThreeHelper {
 					        {
 					        	selfbeta = 360-event.beta;
 					        }
-					        var frontToBack = event.beta;
+					        var frontToBack = selfbeta;
 					
 					        handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
 					    }, true);
-}
+						}*/
             
             this.muzzle = object.getObjectByName("muzzle");
 

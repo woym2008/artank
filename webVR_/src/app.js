@@ -18,7 +18,22 @@ class App {
         	.then(state => {
         		switch(state){
         			case "granted":
-        			window.addEventLisitener('deviceorientation', capture_orientation, false);
+        			//window.addEventLisitener('deviceorientation', capture_orientation, false);
+        			window.addEventLisitener('deviceorientation', function(event){
+        				var rotateDegrees = event.alpha;
+					        // gamma: 从左到右
+					        var leftToRight = event.gamma;
+					        // beta: 从前到后的运动
+					        var selfbeta = event.beta;
+					        if(selfbeta > 180)
+					        {
+					        	selfbeta = 360-event.beta;
+					        }
+					        var frontToBack = selfbeta;
+					
+					        handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
+        				
+        				}, true);
         			break;
         			case "denied":
         			alert("cancle device!!")
