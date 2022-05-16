@@ -62,7 +62,7 @@ class ThreeHelper {
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
             
-            this.dControls = new THREE.DeviceOrientationControls(object);
+            this.dControls = new THREE.DeviceOrientationControls(null);
             /*
             if (window.DeviceOrientationEvent) {
 					    window.addEventListener("deviceorientation", function(event) {
