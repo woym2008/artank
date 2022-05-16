@@ -97,7 +97,7 @@ class ThreeHelper {
 									
 									object.rotation.set(selfbeta,rotateDegrees,leftToRight);
         				
-        				}, true);
+        				}, false);
             
             this.muzzle = object.getObjectByName("muzzle");
 
