@@ -55,6 +55,13 @@ class ThreeHelper {
             this.render();
         });
     }
+    onClickDeviceOrientationControlsBtn(event)
+    {
+        if(this.dControls != null)
+        {
+            this.dControls.screenOrientation = 90;
+        }
+    }
     loadObject(setting, callback) {
         const loader = new THREE.FBXLoader();
         var self = this;
@@ -67,9 +74,7 @@ class ThreeHelper {
             this.muzzle = object.getObjectByName("muzzle");
 
             var switchBtn= document.getElementById("changeTank");
-            switchBtn.addEventListener("touchend", function(event){
-        	this.dControls.screenOrientation += 90;
-        	}, false);
+            switchBtn.addEventListener("touchend", onClickDeviceOrientationControlsBtn, false);
 
             if(this.muzzle){
                 //alert("Find TANK muzzle!")
