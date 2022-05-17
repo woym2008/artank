@@ -76,8 +76,8 @@ class ThreeHelper {
             var switchBtn= document.getElementById("changeTank");
             switchBtn.addEventListener("touchend", function(event){
 
-                if(self.dControls){
-                    self.dControls.screenOrientation += 90;
+                if(self.tank){
+                    self.tank.scale.set(1,1,-self.tank.scale.z);
                 }
                 
             });
