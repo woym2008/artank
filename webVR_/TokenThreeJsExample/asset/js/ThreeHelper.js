@@ -66,10 +66,10 @@ class ThreeHelper {
             this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.muzzle = object.getObjectByName("muzzle");
 
-            var controlsBtn= document.getElementById("changeTank");
-        controlsBtn.addEventListener("touchend", function(event){
+            var switchBtn= document.getElementById("changeTank");
+            switchBtn.addEventListener("touchend", function(event){
         	this.dControls.screenOrientation += 90;
-        	}, true);
+        	}, false);
 
             if(this.muzzle){
                 //alert("Find TANK muzzle!")
