@@ -73,11 +73,12 @@ class ThreeHelper {
             this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.muzzle = object.getObjectByName("muzzle");
 
+            this.dControls.enabled = false;
             var switchBtn= document.getElementById("changeTank");
             switchBtn.addEventListener("touchend", function(event){
 
                 if(self.tank){
-                    self.tank.scale.set(1,1,-self.tank.scale.z);
+                    self.tank.scale.set(self.tank.scale.x,self.tank.scale.y,-self.tank.scale.z);
                 }
                 
             });
@@ -95,6 +96,8 @@ class ThreeHelper {
                      /*alert("TANK Anima Finish!")*/
                      self.framePlayer.sprite.visible  = true;
                      self.framePlayer.play();
+
+                     self.dControls.enabled = true;
                     } );
                 anima.clampWhenFinished = true;
                 anima.setLoop(THREE.LoopOnce);
