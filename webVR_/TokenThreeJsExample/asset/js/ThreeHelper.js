@@ -57,9 +57,9 @@ class ThreeHelper {
     }
     onClickDeviceOrientationControlsBtn(event)
     {
-        if(this.dControls != null)
+        if(self != null && self.dControls != null)
         {
-            this.dControls.screenOrientation = 90;
+            self.dControls.screenOrientation = 90;
         }
     }
     loadObject(setting, callback) {
