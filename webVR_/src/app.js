@@ -90,7 +90,7 @@ class App {
     }
     
     switchControl(){
-
+/*
         isDeviceing = true;
         //开启陀螺仪
         $("#controlBtn").removeClass("controlIconae").addClass("controlIcon");
@@ -110,6 +110,7 @@ class App {
         	}
         	
         });
+        */
     }
     startScan(){
         this.show('scanLine');
