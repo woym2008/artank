@@ -83,11 +83,12 @@ class ThreeHelper {
                 this.ctrl = self.dControls;
                 window.DeviceOrientationEvent.requestPermission()
                 .then(state => {
+                    ctrl.enabled = true;
+                    self.dControls.enabled = true;
                     switch(state){
                         case "granted":
                             {
-                                window.addEventLisitener('deviceorientation', capture_orientation, false);
-                                ctrl.enabled = true;
+                                window.addEventLisitener('deviceorientation', capture_orientation, false);                                
                             }
 
                         break;
