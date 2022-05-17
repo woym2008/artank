@@ -74,7 +74,13 @@ class ThreeHelper {
             this.muzzle = object.getObjectByName("muzzle");
 
             var switchBtn= document.getElementById("changeTank");
-            switchBtn.addEventListener("touchend", onClickDeviceOrientationControlsBtn, false);
+            switchBtn.addEventListener("touchend", function(event){
+
+                if(self.dControls){
+                    self.dControls.screenOrientation += 90;
+                }
+                
+            });
 
             if(this.muzzle){
                 //alert("Find TANK muzzle!")
