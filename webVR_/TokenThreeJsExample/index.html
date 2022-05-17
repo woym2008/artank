@@ -37,6 +37,7 @@
 -->
 <div class="footer">
     <input type="button" value="打开陀螺仪" id="controlBtn"/>
+    <!--<input type="button" value="载入坦克" id="loadTank"/>-->
 </div>
 <!--
 <script type="text/javascript" src="asset/libs/three/three.min.js"></script>
@@ -45,7 +46,7 @@
 <script type="text/javascript" src="asset/libs/three/OrbitControls.js"></script>
 -->
 <script type="text/javascript" src="asset/libs/threeNew/three.min.js"></script>
-<script type="text/javascript" src="asset/libs/threeNew/DeviceOrientationControls.min.js"></script>
+<script type="text/javascript" src="asset/libs/threeNew/DeviceOrientationControls.js"></script>
 <script type="text/javascript" src="asset/libs/threeNew/FBXLoader.js"></script>
 <script type="text/javascript" src="asset/libs/threeNew/fflate.min.js"></script>
 <script type="text/javascript" src="asset/libs/threeNew/OrbitControls.js"></script>
@@ -62,6 +63,10 @@
         const e = document.createElement('script');
         e.setAttribute('src', `asset/js/app.js?t=${Date.now()}`);
         document.body.appendChild(e);
+        /*
+        document.querySelector('#loadTank').addEventListener("click", function(event){
+            testFBX({keyCode:70});
+        });*/
     })();
 
     window.document.onkeydown = testFBX;

@@ -1,5 +1,6 @@
 class ThreeHelper {
     constructor() {
+        this.tank = null;
         this.muzzle = null;
         this.framePlayer = null;
         this.mixers = [];
@@ -19,7 +20,9 @@ class ThreeHelper {
         //this.camera.position.set(-61.41, -10.65, 236.75);
         this.camera.rotation.set(-1.0,0,0);
         this.camera.position.set(-1.0, 20.65, 289.76);
-        
+        this.camera.dummy = new THREE.Object3D();
+        this.camera.add(this.camera.dummy);
+       
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
@@ -31,10 +34,9 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
-        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0,0,157));
         this.control.update();
 
-				this.tank = null;
         
         this.render();
     }
@@ -46,22 +48,8 @@ class ThreeHelper {
         if(this.framePlayer){
             this.framePlayer.update();
         }
-        
-				if(this.dControls)
-        {
+        if(this.dControls){
         	this.dControls.update();
-        }
-        
-        if(this.tank !== null && this.dControls != null)
-        {
-        	if(this.tank.rotation.x < 0)
-        	{
-        		this.dControls.screenOrientation  =180;
-        	}
-        	else
-        	{
-        		this.dControls.screenOrientation  = 0;
-        		}
         }
         window.requestAnimationFrame(() => {
             this.render();
@@ -71,48 +59,11 @@ class ThreeHelper {
         const loader = new THREE.FBXLoader();
         var self = this;
         loader.load(setting.model, (object) => {
+            this.tank = object;
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
-            
-            this.dControls = new THREE.DeviceOrientationControls(object);
-            /*
-            if (window.DeviceOrientationEvent) {
-					    window.addEventListener("deviceorientation", function(event) {
-					        // alpha: 在Z轴上的角度					        
-					        var rotateDegrees = event.alpha;
-					        // gamma: 从左到右
-					        var leftToRight = event.gamma;
-					        // beta: 从前到后的运动
-					        var selfbeta = event.beta;
-					        if(selfbeta > 180)
-					        {
-					        	selfbeta = 360-event.beta;
-					        }
-					        var frontToBack = selfbeta;
-					
-					        handleOrientationEvent(frontToBack, leftToRight, rotateDegrees);
-					    }, true);
-						}*/
-						this.tank = object;
-						window.addEventLisitener('deviceorientation', function(event){
-        				var rotateDegrees = event.alpha;
-					        // gamma: 从左到右
-					        var leftToRight = event.gamma;
-					        // beta: 从前到后的运动
-					        var selfbeta = event.beta;
-					        if(selfbeta > 180)
-					        {
-					        	selfbeta = 360-event.beta;
-					        }
-					        var frontToBack = selfbeta;
-					
-									console.log('deviceorientation rot',frontToBack)
-									
-									object.rotation.set(selfbeta,rotateDegrees,leftToRight);
-        				
-        				}, false);
-            
+            this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.muzzle = object.getObjectByName("muzzle");
 
             if(this.muzzle){
@@ -140,21 +91,19 @@ class ThreeHelper {
         });
     }
     createPartical(){
-
+        var self = this;
         this.framePlayer = new Frame(
             { src: 'asset/images/boom.png', width: 2048, height: 1024, fWidth: 128, fHeight: 128, count: 128 }, 
-            { width: 128, height: 128, duration: 2.33333, loop: false }
+            { width: 128, height: 128, duration: 2.33333, loop: false },
+            function(){
+                setTimeout(() => {
+                    self.framePlayer.play(true);
+                }, 2000);
+            }
         );
-        //sprite.position.set(this.muzzle.position.x, this.muzzle.position.y, this.muzzle.position.z );
-
         this.framePlayer.sprite.position.set(0, 0, 0 );
         this.framePlayer.sprite.scale.set(5, 5, 5 );
-        this.scene.add(this.framePlayer.sprite);
-        this.muzzle.add(this.framePlayer.sprite);
         this.framePlayer.sprite.visible  = false;
-        //this.muzzle.scale.set(5, 5, 5 );
-
-
+        this.muzzle.add(this.framePlayer.sprite);
     }
 }
-//# sourceMappingURL=ThreeHelper.js.map

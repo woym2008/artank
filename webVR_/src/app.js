@@ -18,22 +18,7 @@ class App {
         	.then(state => {
         		switch(state){
         			case "granted":
-        			//window.addEventLisitener('deviceorientation', capture_orientation, false);
-        			window.addEventLisitener('deviceorientation', function(event){
-        				var rotateDegrees = event.alpha;
-					        // gamma: 从左到右
-					        var leftToRight = event.gamma;
-					        // beta: 从前到后的运动
-					        var selfbeta = event.beta;
-					        if(selfbeta > 180)
-					        {
-					        	selfbeta = 360-event.beta;
-					        }
-					        var frontToBack = selfbeta;
-					
-									console.log('deviceorientation rot',frontToBack)
-        				
-        				}, true);
+        			window.addEventLisitener('deviceorientation', capture_orientation, false);
         			break;
         			case "denied":
         			alert("cancle device!!")
@@ -96,22 +81,11 @@ class App {
     }
     
     /**直接打开摄像头 */
+    
     directOpenCamera(){
         this.openCamera(this.cameras[2].value);
-        /*
-        window.DeviceOrientationEvent.requestPermission()
-        	.then(state => {
-        		switch(state){
-        			case "granted":
-        			window.addEventLisitener('deviceorientation', capture_orientation, false);
-        			break;
-        			case "denied":
-        			alert("cancle device!!")
-        			case "prompt":
-        			break;
-        			}
-        		});*/
     }
+    
     switchControl(){
 
         isDeviceing = true;
