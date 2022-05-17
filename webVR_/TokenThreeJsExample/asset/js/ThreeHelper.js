@@ -79,6 +79,9 @@ class ThreeHelper {
 
             var controlsBtn= document.getElementById("controlBtn");
             controlsBtn.addEventListener("touchend", function(event){
+    
+                this.dControls.enabled = true;
+
                 window.DeviceOrientationEvent.requestPermission()
                 .then(state => {
                     switch(state){
@@ -91,8 +94,6 @@ class ThreeHelper {
                         break;
                         }
                     });
-    
-                    this.dControls.enabled = !this.dControls.enabled;
                 }, true);
 
             if(this.muzzle){
