@@ -12,6 +12,7 @@ class App {
         this.callback = null;
         this.clientEndUrl = url || 'https://cn1-crs.easyar.com:8443/search';
         //this.listCamera();
+        /*
         var controlsBtn= document.getElementById("controlBtn");
         controlsBtn.addEventListener("touchend", function(event){
         	window.DeviceOrientationEvent.requestPermission()
@@ -26,8 +27,10 @@ class App {
         			break;
         			}
         		});
-        	}, true);
 
+
+        	}, true);
+*/
         
         this.initEvent();
     }

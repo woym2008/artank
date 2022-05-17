@@ -55,13 +55,7 @@ class ThreeHelper {
             this.render();
         });
     }
-    onClickDeviceOrientationControlsBtn(event)
-    {
-        if(self != null && self.dControls != null)
-        {
-            self.dControls.screenOrientation = 90;
-        }
-    }
+
     loadObject(setting, callback) {
         const loader = new THREE.FBXLoader();
         var self = this;
@@ -83,6 +77,24 @@ class ThreeHelper {
                 
             });
 
+            var controlsBtn= document.getElementById("controlBtn");
+            controlsBtn.addEventListener("touchend", function(event){
+                window.DeviceOrientationEvent.requestPermission()
+                .then(state => {
+                    switch(state){
+                        case "granted":
+                        window.addEventLisitener('deviceorientation', capture_orientation, false);
+                        break;
+                        case "denied":
+                        alert("cancle device!!")
+                        case "prompt":
+                        break;
+                        }
+                    });
+    
+                    this.dControls.enabled = !this.dControls.enabled;
+                }, true);
+
             if(this.muzzle){
                 //alert("Find TANK muzzle!")
                 this.createPartical();
@@ -96,8 +108,6 @@ class ThreeHelper {
                      /*alert("TANK Anima Finish!")*/
                      self.framePlayer.sprite.visible  = true;
                      self.framePlayer.play();
-
-                     self.dControls.enabled = true;
                     } );
                 anima.clampWhenFinished = true;
                 anima.setLoop(THREE.LoopOnce);
