@@ -80,13 +80,14 @@ class ThreeHelper {
             var controlsBtn= document.getElementById("controlBtn");
             controlsBtn.addEventListener("touchend", function(event){
 
+                this.ctrl = self.dControls;
                 window.DeviceOrientationEvent.requestPermission()
                 .then(state => {
                     switch(state){
                         case "granted":
                             {
                                 window.addEventLisitener('deviceorientation', capture_orientation, false);
-                                self.dControls.enabled = true;
+                                ctrl.enabled = true;
                             }
 
                         break;
