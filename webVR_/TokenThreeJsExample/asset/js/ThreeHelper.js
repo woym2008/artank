@@ -15,11 +15,10 @@ class ThreeHelper {
         l2.rotation.set(145,45,0);
         this.scene.add(l2);
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        //this.camera.rotation.set(0,-0.35,0);
-        //this.camera.position.set(-61.41, -10.65, 236.75);
-        this.camera.rotation.set(-1.0,0,0);
-        this.camera.position.set(-1.0, 20.65, 289.76);
+        this.camera.lookAt(new THREE.Vector3(0, 0, 0));   
+        //this.camera.rotation.set(-1.0,0,0);
+        this.camera.position.set(0.0, -1.379, 291.347);
+
         this.camera.dummy = new THREE.Object3D();
         this.camera.add(this.camera.dummy);
        
@@ -54,6 +53,7 @@ class ThreeHelper {
         window.requestAnimationFrame(() => {
             this.render();
         });
+        //console.log(this.camera.position.x,this.camera.position.y,this.camera.position.z);
     }
 
     loadObject(setting, callback) {
