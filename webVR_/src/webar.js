@@ -58,13 +58,13 @@ class WebAR {
                     if (window.innerWidth < window.innerHeight) {
                         // 竖屏
                         if (cameraSize.height < window.innerHeight) {
-                            this.videoElement.setAttribute('height', `${window.innerHeight}px`);
+                            //this.videoElement.setAttribute('height', `${window.innerHeight}px`);
                         }
                     }
                     else {
                         // 横屏
                         if (cameraSize.width < window.innerWidth) {
-                            this.videoElement.setAttribute('width', `${window.innerWidth}px`);
+                            //this.videoElement.setAttribute('width', `${window.innerWidth}px`);
                         }
                     }
                     resolve(true);
