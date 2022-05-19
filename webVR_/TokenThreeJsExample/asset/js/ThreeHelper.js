@@ -67,14 +67,14 @@ class ThreeHelper {
             this.muzzle = object.getObjectByName("muzzle");
             this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.dControls.enabled = false;
-            var switchBtn= document.getElementById("changeTank");
-            switchBtn.addEventListener("touchend", function(event){
+            // var switchBtn= document.getElementById("changeTank");
+            // switchBtn.addEventListener("touchend", function(event){
 
-                if(self.tank){
-                    self.tank.scale.set(self.tank.scale.x,self.tank.scale.y,-self.tank.scale.z);
-                }
+            //     if(self.tank){
+            //         self.tank.scale.set(self.tank.scale.x,self.tank.scale.y,-self.tank.scale.z);
+            //     }
                 
-            });
+            // });
 
             var controlsBtn= document.getElementById("controlBtn");
             controlsBtn.addEventListener("touchend", function(event){
