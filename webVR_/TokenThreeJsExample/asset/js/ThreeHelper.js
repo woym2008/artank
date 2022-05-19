@@ -64,9 +64,8 @@ class ThreeHelper {
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
-            this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.muzzle = object.getObjectByName("muzzle");
-
+            this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.dControls.enabled = false;
             var switchBtn= document.getElementById("changeTank");
             switchBtn.addEventListener("touchend", function(event){
@@ -79,23 +78,41 @@ class ThreeHelper {
 
             var controlsBtn= document.getElementById("controlBtn");
             controlsBtn.addEventListener("touchend", function(event){
-
-                self.dControls.enabled = !self.dControls.enabled;
-                window.DeviceOrientationEvent.requestPermission()
-                .then(state => {
-                    switch(state){
-                        case "granted":
-                            {
-                                window.addEventLisitener('deviceorientation', capture_orientation, false);                                
+                if(self.dControls.enabled){
+                    console.log("Orientation device already launched!!");
+                    return;
+                }
+                if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                    console.info("IOS About···");
+                    window.DeviceOrientationEvent.requestPermission()
+                    .then(state => 
+                        {
+                        switch(state){
+                            case "granted":{
+                                    console.log("launch Orientation device!!");
+                                    self.dControls.enabled = true;
+                                    window.addEventLisitener('deviceorientation', capture_orientation, false);                                
+                                }
+                            break;
+                            case "denied":
+                                console.log("cancle Orientation device!!");
+                            case "prompt":
+                            break;
                             }
+                        });
+                }
+                else{
+                    console.info("Android Or Others");
+                    let r = confirm("是否启动陀螺仪?")
+                    if (r){
+                        self.dControls.enabled = true;
+                        console.log("launch Orientation device!!");
+                    }
+                    else{
+                        console.log("cancle Orientation device!!");
+                    }
+                }
 
-                        break;
-                        case "denied":
-                        alert("cancle device!!")
-                        case "prompt":
-                        break;
-                        }
-                    });
                 }, true);
 
             if(this.muzzle){
