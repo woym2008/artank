@@ -1,7 +1,8 @@
-class ThreeHelper {
+class ThreeHelper {	    
     constructor() {
         this.tank = null;
         this.muzzle = null;
+        this.fogAnchor = null;
         this.framePlayer = null;
         this.mixers = [];
         this.scene = new THREE.Scene();
@@ -39,10 +40,14 @@ class ThreeHelper {
         
         this.render();
     }
+
     render() {
+    		self = this;
+    	
         this.renderer.render(this.scene, this.camera);
+        this.d = this.clock.getDelta();
         for (const mixer of this.mixers) {
-            mixer.update(this.clock.getDelta());
+            mixer.update(self.d);
         }
         if(this.framePlayer){
             this.framePlayer.update();
@@ -50,6 +55,21 @@ class ThreeHelper {
         if(this.dControls){
         	this.dControls.update();
         }
+        if(this.smokeParticles)
+        {   
+        	
+        	if(this.clock)
+        	{
+        		this.det = self.d;
+			    	this.smokeParticles.forEach(function(sp)
+			    	{
+			    		sp.rotation.z += self.det * 0.5;
+			    	});
+        	}
+        	
+				}
+
+		  
         window.requestAnimationFrame(() => {
             this.render();
         });
@@ -65,6 +85,7 @@ class ThreeHelper {
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
             this.scene.add(object);
             this.muzzle = object.getObjectByName("muzzle");
+            this.fogAnchor = object.getObjectByName("fog");
             this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
             this.dControls.enabled = false;
             // var switchBtn= document.getElementById("changeTank");
@@ -119,15 +140,21 @@ class ThreeHelper {
                 //alert("Find TANK muzzle!")
                 this.createPartical();
             }
+            
+            if(this.fogAnchor){
+                this.CreateSmoke();
+            }
 
             if (object.animations.length > 0) {
                 object.mixer = new THREE.AnimationMixer(object);
                 this.mixers.push(object.mixer);
                 let anima = object.mixer.clipAction(object.animations[0]);
                 object.mixer.addEventListener( 'finished', function( e ) {
-                     /*alert("TANK Anima Finish!")*/
-                     self.framePlayer.sprite.visible  = true;
-                     self.framePlayer.play();
+                        setTimeout(() => {
+                            self.framePlayer.sprite.visible  = true;
+                            self.framePlayer.play();
+                        }, 1100);
+                     
                     } );
                 anima.clampWhenFinished = true;
                 anima.setLoop(THREE.LoopOnce);
@@ -138,6 +165,8 @@ class ThreeHelper {
                 callback({ loaded: p.loaded, total: p.total });
             }
         });
+        
+        
     }
     createPartical(){
         var self = this;
@@ -155,4 +184,43 @@ class ThreeHelper {
         this.framePlayer.sprite.visible  = false;
         this.muzzle.add(this.framePlayer.sprite);
     }
+    
+    CreateSmoke(){
+    	var self = this;
+    	var particle = null;
+        
+			self.smokeParticles = [];
+			const loader2 = new THREE.TextureLoader();
+
+			loader2.crossOrigin = '';
+				
+			loader2.load(
+				  'https://s3-us-west-2.amazonaws.com/s.cdpn.io/82015/blue-smoke.png',
+				  (texture) => {
+				    const smokeGeo = new THREE.PlaneBufferGeometry(500, 500);
+				
+				    self.smokeMaterial = new THREE.MeshLambertMaterial({
+				      map: texture,
+				      transparent: true });
+				
+				    for (let p = 0, l = 25; p < l; p++) {
+				    	
+				      particle = new THREE.Mesh(smokeGeo, self.smokeMaterial);
+						this.fogAnchor.add(particle);
+								      
+				      particle.position.set(
+				      Math.random() * 250 - 150,
+				      Math.random() * 250 - 100,
+				      Math.random() * 500 - 50);
+				
+							particle.rotation.x = 29.85;
+				
+				      particle.rotation.z = Math.random() * 360;
+				      this.fogAnchor.add(particle);
+				      self.smokeParticles.push(particle);
+				      
+				    }
+						//self.smokeMaterial.visible = false;
+				  });
+    	}
 }
