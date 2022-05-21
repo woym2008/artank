@@ -447,8 +447,8 @@
 			if ( ! connections.has( ID ) ) return null;
 			const parameters = this.parseParameters( materialNode, textureMap, ID );
 			let material;
-
-			switch ( type.toLowerCase() ) {
+material = new THREE.MeshStandardMaterial();
+			/*switch ( type.toLowerCase() ) {
 
 				case 'phong':
 					material = new THREE.MeshPhongMaterial();
@@ -463,7 +463,7 @@
 					material = new THREE.MeshPhongMaterial();
 					break;
 
-			}
+			}*/
 
 			material.setValues( parameters );
 			material.name = name;
@@ -1186,6 +1186,7 @@
 				material = new THREE.MeshPhongMaterial( {
 					color: 0xcccccc
 				} );
+
 				materials.push( material );
 
 			}

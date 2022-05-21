@@ -113,6 +113,20 @@ class ThreeHelper {
             //     }
                 
             // });
+            
+
+            object.children.forEach(function ( child )
+            {
+            	if(child.material)
+	            {
+	            	//mesh.material = THREE.MeshPhongMaterial();
+	            	child.material.metalness = 0.5;
+	            	child.material.roughness = 0.5;
+	            }
+            	}
+            );
+            
+            
 
             var controlsBtn= document.getElementById("controlBtn");
             controlsBtn.addEventListener("touchend", function(event){
