@@ -70,6 +70,8 @@ class ThreeHelper {
             if(this.fbxLoader.isLoadedAllTexture() && !this.tankAnimaPlayer.enabled  ){
                 this.tankAnimaPlayer.enabled = true;
                 this.tankAnimaPlayer.play();
+                this.tank.visible = true;
+
                 setTimeout(() => {
                     this.fogAnchor.visible = false;
                 }, 2000);
@@ -100,6 +102,7 @@ class ThreeHelper {
             this.tank = object;
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
+            object.visible = false;
             this.scene.add(object);
             this.muzzle = object.getObjectByName("muzzle");
             this.fogAnchor = object.getObjectByName("fog");
@@ -123,8 +126,7 @@ class ThreeHelper {
 	            	child.material.metalness = 0.5;
 	            	child.material.roughness = 0.5;
 	            }
-            	}
-            );
+            });
             
             
 
@@ -308,12 +310,12 @@ class ThreeHelper {
 	    	
 	    	window.requestAnimationFrame(()=> {
 	            self.ScaleWord();
-        });
-			}
-			else
-			{
-    			self.wordsp.scale.set(1,1,1);	
-			}
+            });
+        }
+        else
+        {
+            self.wordsp.scale.set(1,1,1);	
+        }
 
 	}
 }
