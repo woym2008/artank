@@ -1,9 +1,11 @@
 class ThreeHelper {	    
     constructor() {
         this.tank = null;
+        this.tankAnimaPlayer = null;
         this.muzzle = null;
         this.fogAnchor = null;
         this.framePlayer = null;
+        this.fbxLoader = null;
         this.mixers = [];
         this.scene = new THREE.Scene();
         this.scene.add(     new THREE.AmbientLight(0xFFFFFF)  );
@@ -42,12 +44,10 @@ class ThreeHelper {
     }
 
     render() {
-    		self = this;
-    	
+    	self = this;	
         this.renderer.render(this.scene, this.camera);
-        this.d = this.clock.getDelta();
         for (const mixer of this.mixers) {
-            mixer.update(self.d);
+            mixer.update(this.clock.getDelta());
         }
         if(this.framePlayer){
             this.framePlayer.update();
@@ -55,19 +55,23 @@ class ThreeHelper {
         if(this.dControls){
         	this.dControls.update();
         }
-        if(this.smokeParticles)
+        if(this.fogAnchor)
         {   
-        	
         	if(this.clock)
         	{
-        		this.det = self.d;
-			    	this.smokeParticles.forEach(function(sp)
-			    	{
-			    		sp.rotation.z += self.det * 0.5;
-			    	});
+                const time = Date.now() / 1000;
+                this.fogAnchor.rotation.z = time * 1.0;
         	}
-        	
-				}
+        }
+        if(this.fbxLoader){
+            if(this.fbxLoader.isLoadedAllTexture() && !this.tankAnimaPlayer.enabled  ){
+                this.tankAnimaPlayer.enabled = true;
+                this.tankAnimaPlayer.play();
+                setTimeout(() => {
+                    this.fogAnchor.visible = false;
+                }, 2000);
+            }
+        }
 
 		  
         window.requestAnimationFrame(() => {
@@ -77,9 +81,10 @@ class ThreeHelper {
     }
 
     loadObject(setting, callback) {
-        const loader = new THREE.FBXLoader();
+        //const loader = new THREE.FBXLoader();
         var self = this;
-        loader.load(setting.model, (object) => {
+        this.fbxLoader = new THREE.FBXLoader();
+        this.fbxLoader.load(setting.model, (object) => {
             this.tank = object;
             object.scale.setScalar(setting.scale);
             object.position.set(setting.position[0], setting.position[1], setting.position[2]);
@@ -149,6 +154,7 @@ class ThreeHelper {
                 object.mixer = new THREE.AnimationMixer(object);
                 this.mixers.push(object.mixer);
                 let anima = object.mixer.clipAction(object.animations[0]);
+                self.tankAnimaPlayer = anima;
                 object.mixer.addEventListener( 'finished', function( e ) {
                         setTimeout(() => {
                             self.framePlayer.sprite.visible  = true;
@@ -158,15 +164,20 @@ class ThreeHelper {
                     } );
                 anima.clampWhenFinished = true;
                 anima.setLoop(THREE.LoopOnce);
+                anima.enabled = false;
+                /*
                 anima.play();
+                setTimeout(() => {
+                    self.fogAnchor.visible = false;
+                }, 2000);
+                */
             }
         }, (p) => {
             if (p.loaded) {
                 callback({ loaded: p.loaded, total: p.total });
             }
         });
-        
-        
+                
     }
     createPartical(){
         var self = this;
@@ -195,29 +206,33 @@ class ThreeHelper {
 			loader2.crossOrigin = '';
 				
 			loader2.load(
-				  'https://s3-us-west-2.amazonaws.com/s.cdpn.io/82015/blue-smoke.png',
+				  //'https://s3-us-west-2.amazonaws.com/s.cdpn.io/82015/blue-smoke.png',
+				  'asset/images/smoke.png',
+
 				  (texture) => {
-				    const smokeGeo = new THREE.PlaneBufferGeometry(500, 500);
+				    const smokeGeo = new THREE.PlaneBufferGeometry(250, 250);
 				
-				    self.smokeMaterial = new THREE.MeshLambertMaterial({
-				      map: texture,
-				      transparent: true });
+				    const smokeMaterial = new THREE.SpriteMaterial({
+				      map: texture , color:0xb1a56c});
 				
 				    for (let p = 0, l = 25; p < l; p++) {
 				    	
-				      particle = new THREE.Mesh(smokeGeo, self.smokeMaterial);
-						this.fogAnchor.add(particle);
-								      
-				      particle.position.set(
-				      Math.random() * 250 - 150,
-				      Math.random() * 250 - 100,
-				      Math.random() * 500 - 50);
-				
-							particle.rotation.x = 29.85;
-				
-				      particle.rotation.z = Math.random() * 360;
-				      this.fogAnchor.add(particle);
-				      self.smokeParticles.push(particle);
+                        //particle = new THREE.Mesh(smokeGeo, smokeMaterial);
+
+                        particle = new THREE.Sprite(smokeMaterial);
+                        particle.geometry = smokeGeo;
+
+                                        
+                        particle.position.set(
+                        Math.random() * 250 - 150,
+                        Math.random() * 250 - 100,
+                        Math.random() * 500 - 250);
+
+                        particle.rotation.set(29.6, 0 , Math.random() * 360 );
+
+                        this.fogAnchor.add(particle);
+
+                        self.smokeParticles.push(particle);
 				      
 				    }
 						//self.smokeMaterial.visible = false;

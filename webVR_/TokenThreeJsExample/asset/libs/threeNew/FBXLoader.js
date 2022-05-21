@@ -18,6 +18,9 @@
 	let fbxTree;
 	let connections;
 	let sceneGraph;
+	//
+	var necessaryImg = null;
+	var loadedImgCounter = 0;
 
 	class FBXLoader extends THREE.Loader {
 
@@ -94,6 +97,11 @@
 
 		}
 
+		
+		isLoadedAllTexture(){
+			return necessaryImg!= null && loadedImgCounter == Object.keys(necessaryImg).length;
+		}
+
 	} // Parse the FBXTree object returned by the BinaryParser or TextParser and return a THREE.Group
 
 
@@ -109,8 +117,8 @@
 		parse() {
 
 			connections = this.parseConnections();
-			const images = this.parseImages();
-			const textures = this.parseTextures( images );
+			necessaryImg = this.parseImages();
+			const textures = this.parseTextures( necessaryImg );
 			const materials = this.parseMaterials( textures );
 			const deformers = this.parseDeformers();
 			const geometryMap = new GeometryParser().parse( deformers );
@@ -341,6 +349,7 @@
 
 		loadTexture( textureNode, images ) {
 
+			const scope = this;
 			let fileName;
 			const currentPath = this.textureLoader.path;
 			const children = connections.get( textureNode.id ).children;
@@ -383,7 +392,7 @@
 
 			} else {
 
-				texture = this.textureLoader.load( fileName );
+				texture = this.textureLoader.load( fileName , scope.loadedTextureIncreas);
 
 			}
 
@@ -392,6 +401,11 @@
 
 		} // Parse nodes in FBXTree.Objects.Material
 
+		//add by wwh
+		loadedTextureIncreas(){
+			loadedImgCounter += 1;
+			console.log('loadedImgCounter : ' + loadedImgCounter + '|' + Object.keys(necessaryImg).length);
+		}
 
 		parseMaterials( textureMap ) {
 
