@@ -117,6 +117,13 @@ class App {
         //this.hide('start');
         //this.show('stop');
 
+				this.stopRecognize();
+            //this.show('start');
+            if (this.callback) {
+            	//console.log('finish');
+                this.callback('finish');
+              }
+                /*
         this.webAR.startRecognize((msg) => {
             this.stopRecognize();
             //this.show('start');
@@ -124,7 +131,7 @@ class App {
             	console.log(msg);
                 this.callback(msg);
             }
-        })
+        })*/
     }
 
     initEvent() {
