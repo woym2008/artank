@@ -129,7 +129,7 @@ class ThreeHelper {
             });
             
             
-
+						/*
             var controlsBtn= document.getElementById("controlBtn");
             controlsBtn.addEventListener("touchend", function(event){
                 if(self.dControls.enabled){
@@ -167,7 +167,7 @@ class ThreeHelper {
                     }
                 }
 
-                }, true);
+                }, true);*/
 
             if(this.muzzle){
                 //alert("Find TANK muzzle!")

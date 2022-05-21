@@ -116,10 +116,12 @@ class App {
         this.show('scanLine');
         //this.hide('start');
         //this.show('stop');
+
         this.webAR.startRecognize((msg) => {
             this.stopRecognize();
             //this.show('start');
             if (this.callback) {
+            	console.log(msg);
                 this.callback(msg);
             }
         })
