@@ -36,8 +36,8 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
-        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0,0,157));
-        this.control.update();
+        //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0,0,157));
+        //this.control.update();
         
         this.deltaT = 0;
 
@@ -84,6 +84,15 @@ class ThreeHelper {
                     this.wordsp.scale.set(0.01,0.01,0.01);
                     this.ScaleWord();
                 }, 5000);
+            }
+        }
+
+        if( this.fbxLoader && this.tank != null &&
+            !document.querySelector('#loadingWrap').classList.contains('none')){
+            const val = Math.ceil(this.fbxLoader.getLoadedImgCount());  //total is 16;
+            document.querySelector('#loadingPercent').innerHTML = (val + 84) + '%';
+            if (val >= 16) {
+                document.querySelector('#loadingWrap').classList.add('none');
             }
         }
 

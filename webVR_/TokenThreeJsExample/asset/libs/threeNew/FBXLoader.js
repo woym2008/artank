@@ -102,6 +102,15 @@
 			return necessaryImg!= null && loadedImgCounter == Object.keys(necessaryImg).length;
 		}
 
+		getNecessaryImgCount(){
+			return necessaryImg == null ? 0 : Object.keys(necessaryImg).length;
+		}
+		getLoadedImgCount(){
+			return loadedImgCounter;
+		}
+
+
+
 	} // Parse the FBXTree object returned by the BinaryParser or TextParser and return a THREE.Group
 
 
@@ -404,7 +413,7 @@
 		//add by wwh
 		loadedTextureIncreas(){
 			loadedImgCounter += 1;
-			console.log('loadedImgCounter : ' + loadedImgCounter + '|' + Object.keys(necessaryImg).length);
+			//console.log('loadedImgCounter : ' + loadedImgCounter + '|' + Object.keys(necessaryImg).length);
 		}
 
 		parseMaterials( textureMap ) {

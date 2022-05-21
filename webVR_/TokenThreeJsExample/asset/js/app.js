@@ -32,7 +32,9 @@ function showModel(setting) {
     // ThreeJS简单使用类
     const threeHelper = new ThreeHelper();
     threeHelper.loadObject(setting, (p) => {
-        const val = Math.ceil(p.loaded / p.total * 100);
+        const full = 84;
+        const val = Math.ceil(p.loaded / p.total * full);
+        //console.log('loaded:' + p.loaded + ' total:' + p.total);
         document.querySelector('#loadingPercent').innerHTML = `${val}%`;
         if (val >= 100) {
             app.hide('loadingWrap');
