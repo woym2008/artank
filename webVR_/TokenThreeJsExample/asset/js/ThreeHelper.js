@@ -38,6 +38,8 @@ class ThreeHelper {
         }, false);
         this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0,0,157));
         this.control.update();
+        
+        this.deltaT = 0;
 
         
         this.render();
@@ -45,9 +47,10 @@ class ThreeHelper {
 
     render() {
     	self = this;	
+    	this.deltaT = this.clock.getDelta();
         this.renderer.render(this.scene, this.camera);
         for (const mixer of this.mixers) {
-            mixer.update(this.clock.getDelta());
+            mixer.update(this.deltaT);
         }
         if(this.framePlayer){
             this.framePlayer.update();
@@ -70,6 +73,15 @@ class ThreeHelper {
                 setTimeout(() => {
                     this.fogAnchor.visible = false;
                 }, 2000);
+                
+                
+                setTimeout(() => {
+                	if(this.wordsp)
+                    this.wordsp.visible = true;
+                    
+                    this.wordsp.scale.set(0.01,0.01,0.01);
+                    this.ScaleWord();
+                }, 5000);
             }
         }
 
@@ -148,6 +160,8 @@ class ThreeHelper {
             
             if(this.fogAnchor){
                 this.CreateSmoke();
+                
+                this.CreateWord();
             }
 
             if (object.animations.length > 0) {
@@ -238,4 +252,54 @@ class ThreeHelper {
 						//self.smokeMaterial.visible = false;
 				  });
     	}
+    	
+    CreateWord()
+    {
+    	var self = this;
+    	
+    	const loaderword = new THREE.TextureLoader(); 
+    	
+    	loaderword.load('asset/images/welcome.png',
+				  (texture) => {
+				  	
+				    const word = new THREE.PlaneBufferGeometry(32, 196);
+				
+				    const wordMaterial = new THREE.SpriteMaterial({
+				      map: texture , color:0xffffff});
+				      
+				      self.wordsp = new THREE.Sprite(wordMaterial);
+				      self.wordsp.geometry = word;
+				      
+				      self.wordsp.position.set(
+                        -128,0,0);
+                        
+							self.scene.add(self.wordsp);
+							
+							self.wordsp.visible = false;
+				
+						//self.smokeMaterial.visible = false;
+						
+				  });
+				  
+    	}
+    	
+    ScaleWord()
+    {
+    	var self = this;
+    	
+    	if(this.wordsp.scale.x < 1)
+    	{
+				var newcsale = this.wordsp.scale.x * (1 + this.deltaT)*1.2;
+	    	this.wordsp.scale.set(newcsale,newcsale,newcsale);
+	    	
+	    	window.requestAnimationFrame(()=> {
+	            self.ScaleWord();
+        });
+			}
+			else
+			{
+    			self.wordsp.scale.set(1,1,1);	
+			}
+
+	}
 }
