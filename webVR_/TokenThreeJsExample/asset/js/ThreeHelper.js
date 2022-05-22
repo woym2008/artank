@@ -22,7 +22,7 @@ class ThreeHelper {
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
         //this.camera.rotation.set(-1.0,0,0);
         this.camera.position.set(0.0, -23.379, 150.347);
-        this.camera.lookAt(new THREE.Vector3(0,0, 0));   
+        this.camera.lookAt(new THREE.Vector3(0, -20, 0));   
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -245,7 +245,7 @@ class ThreeHelper {
 				      self.wordsp.geometry = word;
 				      
 				      self.wordsp.position.set(
-                        0,22,0);
+                        0,-45,0);
                         
 							self.scene.add(self.wordsp);
 							
