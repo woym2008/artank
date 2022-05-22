@@ -37,8 +37,8 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();            
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
-        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0.0, -14.379, 80.347));
-        this.control.update();    
+        //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0.0, -20.0, 0));
+        //this.control.update();    
         this.deltaT = 0;
         this.render();
     }
@@ -165,6 +165,12 @@ class ThreeHelper {
 					anima.play();
 				}
 			}, 2000);
+			
+			setTimeout(() =>{
+				self.control = new THREE.OrbitControls(self.camera, self.renderer.domElement , new THREE.Vector3(0.0, -20.0, 0));
+        self.control.update();  
+				},15000);
+  
 
 			self.tankMoveable = false;
 		}
@@ -239,7 +245,7 @@ class ThreeHelper {
     	loaderword.load('asset/images/welcome.png',
 				  (texture) => {
 				  	
-				    const word = new THREE.PlaneBufferGeometry(48, 6);
+				    const word = new THREE.PlaneBufferGeometry(28, 4);
 				
 				    const wordMaterial = new THREE.SpriteMaterial({
 				      map: texture , color:0xffffff});
@@ -248,7 +254,7 @@ class ThreeHelper {
 				      self.wordsp.geometry = word;
 				      
 				      self.wordsp.position.set(
-                        0,-14,-60);
+                        0,-20,-60);
                         
 							//self.scene.add(self.wordsp);
 							
