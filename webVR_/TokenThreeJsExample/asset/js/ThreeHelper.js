@@ -159,6 +159,7 @@ class ThreeHelper {
 					self.framePlayer.play();
 					anima.clampWhenFinished = true;
 					anima.setLoop(THREE.LoopOnce);
+					anima.timeScale = 0.2;
 					anima.play();
 				}
 			}, 2000);
@@ -175,7 +176,7 @@ class ThreeHelper {
             function(){
                 setTimeout(() => {
                     self.framePlayer.play(true);
-                }, 5000);
+                }, 13000);
             }
         );
         this.framePlayer.sprite.position.set(0, 0, 0 );
