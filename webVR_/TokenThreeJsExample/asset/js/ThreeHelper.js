@@ -259,122 +259,7 @@ class ThreeHelper {
         	
         	
         },(tp)=>{
-        	
-        	var cp = callback;
-        	
-        	if(tp.loaded)
-        	{
-        	this.fbxLoader = new THREE.FBXLoader();
-	        this.fbxLoader.load(setting.model, (object) => {
-	            this.tank = object;
-	            object.scale.setScalar(setting.scale);
-	            //object.position.set(setting.position[0], setting.position[1], setting.position[2]);
-	            object.visible = false;
-	            this.scene.add(object);
-	            this.muzzle = object.getObjectByName("muzzle");
-	            this.fogAnchor = object.getObjectByName("fog");
-	            this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
-	            this.dControls.enabled = false;
-	            // var switchBtn= document.getElementById("changeTank");
-	            // switchBtn.addEventListener("touchend", function(event){
-	
-	            //     if(self.tank){
-	            //         self.tank.scale.set(self.tank.scale.x,self.tank.scale.y,-self.tank.scale.z);
-	            //     }
-	                
-	            // });
-	            
-	
-	            object.children.forEach(function ( child )
-	            {
-	            	if(child.material)
-		            {
-		            	//mesh.material = THREE.MeshPhongMaterial();
-		            	child.material.metalness = 0.5;
-		            	child.material.roughness = 0.5;
-		            }
-	            });
-	            
-	            
-							/*
-	            var controlsBtn= document.getElementById("controlBtn");
-	            controlsBtn.addEventListener("touchend", function(event){
-	                if(self.dControls.enabled){
-	                    console.log("Orientation device already launched!!");
-	                    return;
-	                }
-	                if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-	                    console.info("IOS About···");
-	                    window.DeviceOrientationEvent.requestPermission()
-	                    .then(state => 
-	                        {
-	                        switch(state){
-	                            case "granted":{
-	                                    console.log("launch Orientation device!!");
-	                                    self.dControls.enabled = true;
-	                                    window.addEventLisitener('deviceorientation', capture_orientation, false);                                
-	                                }
-	                            break;
-	                            case "denied":
-	                                console.log("cancle Orientation device!!");
-	                            case "prompt":
-	                            break;
-	                            }
-	                        });
-	                }
-	                else{
-	                    console.info("Android Or Others");
-	                    let r = confirm("是否启动陀螺仪?")
-	                    if (r){
-	                        self.dControls.enabled = true;
-	                        console.log("launch Orientation device!!");
-	                    }
-	                    else{
-	                        console.log("cancle Orientation device!!");
-	                    }
-	                }
-	
-	                }, true);*/
-	
-	            if(this.muzzle){
-	                //alert("Find TANK muzzle!")
-	                this.createPartical();
-	            }
-	            
-	            if(this.fogAnchor){
-	                this.CreateSmoke();
-	                
-	                this.CreateWord();
-	            }
-	
-	            if (object.animations.length > 0) {
-	                object.mixer = new THREE.AnimationMixer(object);
-	                this.mixers.push(object.mixer);
-	                let anima = object.mixer.clipAction(object.animations[0]);
-	                self.tankAnimaPlayer = anima;
-	                object.mixer.addEventListener( 'finished', function( e ) {
-	                        setTimeout(() => {
-	                            self.framePlayer.sprite.visible  = true;
-	                            self.framePlayer.play();
-	                        }, 1100);
-	                     
-	                    } );
-	                anima.clampWhenFinished = true;
-	                anima.setLoop(THREE.LoopOnce);
-	                anima.enabled = false;
-	                /*
-	                anima.play();
-	                setTimeout(() => {
-	                    self.fogAnchor.visible = false;
-	                }, 2000);
-	                */
-	            }
-		        }, (p) => {
-		            if (p.loaded) {
-		                cp({ loaded: p.loaded, total: p.total });
-		            }
-	        	});
-	        }
+
         	});
         
         
@@ -474,7 +359,7 @@ class ThreeHelper {
     	loaderword.load('asset/images/welcome.png',
 				  (texture) => {
 				  	
-				    const word = new THREE.PlaneBufferGeometry(64, 8);
+				    const word = new THREE.PlaneBufferGeometry(48, 6);
 				
 				    const wordMaterial = new THREE.SpriteMaterial({
 				      map: texture , color:0xffffff});
