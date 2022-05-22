@@ -245,7 +245,7 @@ class ThreeHelper {
     	loaderword.load('asset/images/welcome.png',
 				  (texture) => {
 				  	
-				    const word = new THREE.PlaneBufferGeometry(28, 4);
+				    const word = new THREE.PlaneBufferGeometry(22, 3);
 				
 				    const wordMaterial = new THREE.SpriteMaterial({
 				      map: texture , color:0xffffff});
