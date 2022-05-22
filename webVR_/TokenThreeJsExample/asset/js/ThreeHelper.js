@@ -21,8 +21,10 @@ class ThreeHelper {
         this.scene.add(l2);
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
         //this.camera.rotation.set(-1.0,0,0);
-        this.camera.position.set(0.0, -23.379, 150.347);
-        this.camera.lookAt(new THREE.Vector3(0, -20, 0));   
+        this.scene.add(this.camera); 
+        this.camera.position.set(0.0, -14.379, 80.347);
+        this.camera.lookAt(new THREE.Vector3(0, -20, 0)); 
+         
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35,8 +37,8 @@ class ThreeHelper {
             this.camera.updateProjectionMatrix();            
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
-        //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0,0,157));
-        //this.control.update();    
+        this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0.0, -14.379, 80.347));
+        this.control.update();    
         this.deltaT = 0;
         this.render();
     }
@@ -246,9 +248,11 @@ class ThreeHelper {
 				      self.wordsp.geometry = word;
 				      
 				      self.wordsp.position.set(
-                        0,-45,0);
+                        0,-14,-60);
                         
-							self.scene.add(self.wordsp);
+							//self.scene.add(self.wordsp);
+							
+							self.camera.add(self.wordsp);
 							
 							self.wordsp.visible = false;
 				
