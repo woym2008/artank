@@ -1,11 +1,13 @@
 class ThreeHelper {	    
     constructor() {
         this.tank = null;
-        this.tankAnimaPlayer = null;
+        //this.tankAnimaPlayer = null;
         this.muzzle = null;
         this.fogAnchor = null;
         this.framePlayer = null;
         this.fbxLoader = null;
+		this.tankTotalLoaded = false;
+		this.tankMoveable = true;
         this.mixers = [];
         this.scene = new THREE.Scene();
         this.scene.add(     new THREE.AmbientLight(0xFFFFFF)  );
@@ -18,14 +20,10 @@ class ThreeHelper {
         l2.rotation.set(145,45,0);
         this.scene.add(l2);
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 3000);
-        this.camera.lookAt(new THREE.Vector3(0, 0, 0));   
         //this.camera.rotation.set(-1.0,0,0);
-        this.camera.position.set(0.0, -1.379, 100.347);
+        this.camera.position.set(0.0, -23.379, 150.347);
+        this.camera.lookAt(new THREE.Vector3(0,0, 0));   
 
-        this.camera.dummy = new THREE.Object3D();
-        this.camera.add(this.camera.dummy);
-        //this.camera.far = 10000;
-       
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.setAttribute('class', 'easyARCanvas');
@@ -38,11 +36,8 @@ class ThreeHelper {
             this.renderer.setSize(window.innerWidth, window.innerHeight);
         }, false);
         //this.control = new THREE.OrbitControls(this.camera, this.renderer.domElement , new THREE.Vector3(0,0,157));
-        //this.control.update();
-        
+        //this.control.update();    
         this.deltaT = 0;
-
-        
         this.render();
     }
 
@@ -67,26 +62,24 @@ class ThreeHelper {
                 this.fogAnchor.rotation.z = time * 1.0;
         	}
         }
-        if(this.fbxLoader && this.tankAnimaPlayer){
-            if(this.fbxLoader.isLoadedAllTexture() && !this.tankAnimaPlayer.enabled  ){
-                this.tankAnimaPlayer.enabled = true;
-                this.tankAnimaPlayer.play();
-                this.tank.visible = true;
-/*
-                setTimeout(() => {
-                    this.fogAnchor.visible = false;
-                }, 2000);*/
-                
-                
-                setTimeout(() => {
-                	if(this.wordsp)
-                    this.wordsp.visible = true;
-                    
-                    this.wordsp.scale.set(0.01,0.01,0.01);
-                    this.ScaleWord();
-                }, 5000);
-            }
-        }
+		if(this.tankTotalLoaded){
+			this.MoveTank();
+		}
+		else
+		{
+			if(this.fbxLoader) {
+				this.tankTotalLoaded = this.fbxLoader.isLoadedAllTexture();
+				if(this.tankTotalLoaded){
+					this.tank.visible = true;
+					setTimeout(() => {
+						if(this.wordsp)
+						this.wordsp.visible = true;
+						this.wordsp.scale.set(0.01,0.01,0.01);
+						this.ScaleWord();
+					}, 5000);
+				}
+			}
+		}
 
         if( this.fbxLoader && this.tank != null &&
             !document.querySelector('#loadingWrap').classList.contains('none')){
@@ -107,193 +100,77 @@ class ThreeHelper {
     loadObject(setting, callback) {
         //const loader = new THREE.FBXLoader();
         var self = this;
-        new THREE.TextureLoader().load('asset/images/boom.png', (texobj) =>{
-        	var cp = callback;
-        	
-        	this.fbxLoader = new THREE.FBXLoader();
-	        this.fbxLoader.load(setting.model, (object) => {
-	            this.tank = object;
+        new THREE.TextureLoader().load('asset/images/boom.png', (boomTexture) =>{
+        	var cp = callback;       	
+        	self.fbxLoader = new THREE.FBXLoader();
+	        self.fbxLoader.load(setting.model, (object) => {
+	            self.tank = object;
+	            self.tank.visible = false;	  
 	            object.scale.setScalar(setting.scale);
-	            //object.position.set(setting.position[0], setting.position[1], setting.position[2]);
 	            object.visible = false;
-	            this.scene.add(object);
-	            object.position.set(0, 21, -3000);
-	            this.muzzle = object.getObjectByName("muzzle");
-	            this.fogAnchor = object.getObjectByName("fog");
-	            this.dControls = new THREE.DeviceOrientationControls(object/*,this.camera*/);        
-	            this.dControls.enabled = false;
-	            // var switchBtn= document.getElementById("changeTank");
-	            // switchBtn.addEventListener("touchend", function(event){
-	
-	            //     if(self.tank){
-	            //         self.tank.scale.set(self.tank.scale.x,self.tank.scale.y,-self.tank.scale.z);
-	            //     }
-	                
-	            // });
-	            
-	
-	            object.children.forEach(function ( child )
-	            {
-	            	if(child.material)
-		            {
-		            	//mesh.material = THREE.MeshPhongMaterial();
+	            self.scene.add(object);
+	            object.position.set(0, 0, -3000);
+	            self.muzzle = object.getObjectByName("muzzle");
+	            self.fogAnchor = object.getObjectByName("fog");
+	            object.children.forEach(function ( child ){
+	            	if(child.material){
 		            	child.material.metalness = 0.5;
 		            	child.material.roughness = 0.5;
 		            }
-	            });
-	            
-	            
-							/*
-	            var controlsBtn= document.getElementById("controlBtn");
-	            controlsBtn.addEventListener("touchend", function(event){
-	                if(self.dControls.enabled){
-	                    console.log("Orientation device already launched!!");
-	                    return;
-	                }
-	                if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-	                    console.info("IOS About···");
-	                    window.DeviceOrientationEvent.requestPermission()
-	                    .then(state => 
-	                        {
-	                        switch(state){
-	                            case "granted":{
-	                                    console.log("launch Orientation device!!");
-	                                    self.dControls.enabled = true;
-	                                    window.addEventLisitener('deviceorientation', capture_orientation, false);                                
-	                                }
-	                            break;
-	                            case "denied":
-	                                console.log("cancle Orientation device!!");
-	                            case "prompt":
-	                            break;
-	                            }
-	                        });
-	                }
-	                else{
-	                    console.info("Android Or Others");
-	                    let r = confirm("是否启动陀螺仪?")
-	                    if (r){
-	                        self.dControls.enabled = true;
-	                        console.log("launch Orientation device!!");
-	                    }
-	                    else{
-	                        console.log("cancle Orientation device!!");
-	                    }
-	                }
-	
-	                }, true);*/
-	
-	            if(this.muzzle){
-	                //alert("Find TANK muzzle!")
-	                this.createPartical();
-	            }
-	            
-	            if(this.fogAnchor){
-	                this.CreateSmoke();
-	                
-	                this.CreateWord();
-	            }
-	            
-	            this.tank.visible = true;
-
-	            
-	            this.MoveTank(function()
-	            {
-	            	var mself = self;
-	            	var funcself = this;
-	            	
-	            	//close fog
-								mself.fogAnchor.visible = false;
-	            	
-	            	//boom
-	            	mself.framePlayer.sprite.visible  = true;
-								mself.framePlayer.play();
-									
-									setTimeout(() => {
-	                            //mself.framePlayer.sprite.visible  = true;
-	                            //mself.framePlayer.play();
-	                            
-	                            if (mself.tank.animations.length > 0) {
-			                mself.tank.mixer = new THREE.AnimationMixer(mself.tank);
-			                mself.mixers.push(mself.tank.mixer);
-			                let anima = mself.tank.mixer.clipAction(mself.tank.animations[0]);
-			                mself.tankAnimaPlayer = anima;
-			                
-			                mself.framePlayer.sprite.visible  = true;
-											mself.framePlayer.play();
-			                     /*       
-			                mself.tank.mixer.addEventListener( 'finished', function( e ) {
-			                        setTimeout(() => {
-			                            mself.framePlayer.sprite.visible  = true;
-			                            mself.framePlayer.play();
-			                        }, 1100);
-			                     
-			                    } );*/
-			                anima.clampWhenFinished = true;
-			                anima.setLoop(THREE.LoopOnce);
-			                anima.enabled = false;
-			                /*
-			                anima.play();
-			                setTimeout(() => {
-			                    self.fogAnchor.visible = false;
-			                }, 2000);
-			                */
-			            	}
-			            	
-									}, 2100);
-	                        
-	            	
-	            	
-							}
-	            
-	            );
-	
-	            
-	            
-	            
-		        }, (p) => {
+	            });		
+	            if(self.muzzle){
+	                self.createPartical(boomTexture);
+	            }         
+	            if(self.fogAnchor){
+	                self.CreateSmoke();	                
+	                self.CreateWord();
+				}
+			}, (p) => {
 		            if (p.loaded) {
 		                cp({ loaded: p.loaded, total: p.total });
-		            }
-	        	});
-        	
-        	
-        },(tp)=>{
-
-        	});
-        
-        
-        
-                
+					}
+				}
+			);       	        	
+        });             
     }
     
-    MoveTank(finhishcallback)
-    {
-    	var self = this;
-    	var cb = finhishcallback;
-    	
-    	if(self.tank.position.z < 0)
-    	{
-    		var offsetz = self.tank.position.z + self.deltaT*500;
-
+    MoveTank() {
+    	var self = this;  	
+		if(!this.tankMoveable) return;
+    	if(self.tank.position.z < 0){
+    		var offsetz = self.tank.position.z + self.deltaT*1000;
 	    	self.tank.position.set(self.tank.position.x,self.tank.position.y,offsetz);
-	    	
-	    	window.requestAnimationFrame(()=> {
-	            self.MoveTank(finhishcallback);
-            });
-			}
-			else
-			{
-            self.tank.position.set(self.tank.position.x,self.tank.position.y,0);	
-            finhishcallback();
-			}
-
 		}
+		else
+		{
+            self.tank.position.set(self.tank.position.x,self.tank.position.y,0);	
+            self.fogAnchor.visible = false;	      	
+			//boom
+			self.framePlayer.sprite.visible  = true;
+			self.framePlayer.play();
+
+			setTimeout(() => {
+				if (self.tank.animations.length > 0) {
+					self.tank.mixer = new THREE.AnimationMixer(self.tank);
+					self.mixers.push(self.tank.mixer);
+					let anima = self.tank.mixer.clipAction(self.tank.animations[0]);
+					//self.tankAnimaPlayer = anima;
+					self.framePlayer.sprite.visible  = true;
+					self.framePlayer.play();
+					anima.clampWhenFinished = true;
+					anima.setLoop(THREE.LoopOnce);
+					anima.play();
+				}
+			}, 2000);
+
+			self.tankMoveable = false;
+		}
+	}
 		
-    createPartical(){
+    createPartical(imgMap){
         var self = this;
         this.framePlayer = new Frame(
-            { src: 'asset/images/boom.png', width: 2048, height: 1024, fWidth: 128, fHeight: 128, count: 128 }, 
+            { /*src: 'asset/images/boom.png',*/ map : imgMap , width: 2048, height: 1024, fWidth: 128, fHeight: 128, count: 128 }, 
             { width: 128, height: 128, duration: 2.33333, loop: false },
             function(){
                 setTimeout(() => {
@@ -368,7 +245,7 @@ class ThreeHelper {
 				      self.wordsp.geometry = word;
 				      
 				      self.wordsp.position.set(
-                        0,-22,0);
+                        0,22,0);
                         
 							self.scene.add(self.wordsp);
 							

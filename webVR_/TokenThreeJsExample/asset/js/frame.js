@@ -51,8 +51,7 @@ class Frame {
 
         const material = new THREE.SpriteMaterial({
             color: 0xffffff,
-            map: new THREE.TextureLoader().load(img.src),
-            //blending:THREE.AdditiveBlending,
+            map: img.map,
         });
 
         this.sprite = new THREE.Sprite(material);
