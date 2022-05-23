@@ -138,13 +138,19 @@ class ThreeHelper {
     
     MoveTank() {
     	var self = this;  	
-		if(!this.tankMoveable) return;
+			if(!this.tankMoveable) return;
     	if(self.tank.position.z < 0){
+    		
     		var offsetz = self.tank.position.z + self.deltaT*1000;
-	    	self.tank.position.set(self.tank.position.x,self.tank.position.y,offsetz);
-		}
-		else
-		{
+    		if(offsetz < 0)
+	    		self.tank.position.set(self.tank.position.x,self.tank.position.y,offsetz);
+				else
+				{
+					self.tank.position.set(self.tank.position.x,self.tank.position.y,0);
+				}
+			}
+			else
+			{
             self.tank.position.set(self.tank.position.x,self.tank.position.y,0);	
             self.fogAnchor.visible = false;	      	
 			//boom
