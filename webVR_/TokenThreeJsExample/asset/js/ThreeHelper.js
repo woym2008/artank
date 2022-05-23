@@ -78,7 +78,7 @@ class ThreeHelper {
 						this.wordsp.visible = true;
 						this.wordsp.scale.set(0.01,0.01,0.01);
 						this.ScaleWord();
-					}, 5000);
+					}, 8000);
 				}
 			}
 		}
@@ -148,8 +148,12 @@ class ThreeHelper {
             self.tank.position.set(self.tank.position.x,self.tank.position.y,0);	
             self.fogAnchor.visible = false;	      	
 			//boom
-			self.framePlayer.sprite.visible  = true;
-			self.framePlayer.play();
+			setTimeout(() =>
+			{
+				self.framePlayer.sprite.visible  = true;
+				self.framePlayer.play();
+				}, 2000);
+
 
 			setTimeout(() => {
 				if (self.tank.animations.length > 0) {
@@ -164,12 +168,12 @@ class ThreeHelper {
 					anima.timeScale = 0.2;
 					anima.play();
 				}
-			}, 2000);
+			}, 6000);
 			
 			setTimeout(() =>{
 				self.control = new THREE.OrbitControls(self.camera, self.renderer.domElement , new THREE.Vector3(0.0, -20.0, 0));
         self.control.update();  
-				},15000);
+				},19000);
   
 
 			self.tankMoveable = false;
@@ -183,8 +187,8 @@ class ThreeHelper {
             { width: 128, height: 128, duration: 2.33333, loop: false },
             function(){
                 setTimeout(() => {
-                    self.framePlayer.play(true);
-                }, 13000);
+                    //self.framePlayer.play();
+                }, 19000);
             }
         );
         this.framePlayer.sprite.position.set(0, 0, 0 );
